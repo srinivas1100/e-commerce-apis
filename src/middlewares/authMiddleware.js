@@ -1,10 +1,10 @@
-const jwt = require("jsonwebtoken");
+const { verifyJwtToken } = require("../helpers/jwt-helpers");
 
-const verifyToken = (req, res, next) => {
-    console.log("middleware is running in the app");
+const verifyToken = async (req, res, next) => {
+    if (req.headers.authorization === undefined) return res.status(404).send("plesse authanticate");
     const token = req.headers.authorization.toString().split(" ")
-    const ve = jwt.verify(token[1], process.env.JWT_SEC)
-    req.params.id = ve._id;
+    const ve = await verifyJwtToken(token[1]);
+    req.id = ve._id;
     req.token = token[1];
     next();
 }

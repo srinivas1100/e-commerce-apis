@@ -3,7 +3,8 @@ const mongoose = require("mongoose");
 const addressSchema = mongoose.Schema({
     user_id: {
         type: mongoose.Schema.Types.ObjectId,
-        require: true
+        require: true,
+        ref: 'users'
     },
     address_line1: {
         type: String,
@@ -30,6 +31,6 @@ const addressSchema = mongoose.Schema({
     }
 });
 
-const userAddress = mongoose.model("user-address", addressSchema);
+const UserAddress = mongoose.model("user-address", addressSchema);
 
-module.exports = userAddress;
+module.exports = UserAddress;

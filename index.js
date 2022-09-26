@@ -3,7 +3,8 @@ const express = require('express');
 require("./src/helpers/database/database");
 const jwt = require("jsonwebtoken");
 
-const userRouter = require("./src/routes/userRouter")
+const userRouter = require("./src/routes/userRouter");
+const userAddressRouter = require("./src/routes/user/userAddressRouter");
 
 const app = express();
 const port = process.env.PORT;
@@ -17,15 +18,7 @@ app.get("/test", (req, res) => {
 })
 
 app.use(userRouter);
-
-function token() {
-    const va = jwt.sign("my first token", "sequiret")
-    console.log(va)
-    const verify = jwt.verify(va, "sequiret")
-    console.log(verify)
-}
-
-token()
+app.use(userAddressRouter);
 
 app.listen(port, () => {
     console.log(`app is running in port ${port}`)

@@ -5,6 +5,11 @@ const cartSchema = mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         require: true
     },
+    total_items:{
+        type: Number,
+        require:true,
+        default:0
+    },
     total_amount: {
         type:Number,
         require: true,
@@ -14,6 +19,6 @@ const cartSchema = mongoose.Schema({
     timestamps: true
 });
 
-const cart = mongoose.model("cart", cartSchema);
+const Cart = mongoose.model("cart", cartSchema);
 
-module.exports = cart;
+module.exports = Cart;

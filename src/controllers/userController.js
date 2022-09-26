@@ -1,5 +1,6 @@
 const { request } = require("express");
 const User = require("../models/userModel.js");
+const { hashPassword } = require("../helpers/bcrypt-helpers.js")
 
 const getAllUsers = async (req, res) => {
     const user = await User.find();
@@ -9,7 +10,8 @@ const getAllUsers = async (req, res) => {
 
 const loginUser = async (req, res) => {
     try {
-        const user = await User.findOne({ email: req.body.email });
+        const user = await User.findByCredentials(req.body.email, req.body.password);
+        console.log(user)
         await user.generateToken();
         res.status(200).send(user);
     } catch (error) {
@@ -19,7 +21,7 @@ const loginUser = async (req, res) => {
 
 const getSingleUser = async (req, res) => {
     try {
-        const user = await User.findById(req.params.id);
+        const user = await User.findById(req.id);
         if (!user) return res.status(400).send("User does not exist");
         res.status(200).send(user);
     } catch (error) {
@@ -29,29 +31,38 @@ const getSingleUser = async (req, res) => {
 }
 
 const insertUser = async (req, res) => {
-    const user = new User(req.body);
+    try {
+        const user = new User(req.body);
+        const saveUser = await user.save();
+        res.status(200).send(saveUser);
+    } catch (err) {
+        res.status(500).send("server error");
+    }
 
-    await user.save().then((a) => {
-        res.status(200).send(user);
-    }).catch((a) => {
-        res.status(400).send(a);
-    })
 
 }
 
 const updateUser = async (req, res) => {
-    var userObject = {};
-    req.body.name === "" ? null : userObject["name"] = req.body.name;
-    req.body.email === "" ? null : userObject["email"] = req.body.email;
-    req.body.password === "" ? null : userObject["password"] = req.body.password;
-    req.body.usertype === "" ? null : userObject["usertype"] = req.body.usertype;
-    const user = await User.findOneAndUpdate({ _id: req.params.id }, userObject);
-    res.status(200).send(userObject)
+    try {
+        var userObject = {};
+        req.body.name === "" ? null : userObject["name"] = req.body.name;
+        req.body.email === "" ? null : userObject["email"] = req.body.email;
+        req.body.password === "" ? null : userObject["password"] = await hashPassword(req.body.password);
+        console.log(req.body.password);
+        req.body.usertype === "" ? null : userObject["usertype"] = req.body.usertype;
+
+        await User.findOneAndUpdate({ _id: req.id }, userObject);
+
+        res.status(200).send(userObject)
+    } catch (err) {
+        console.log(err.toString());
+        res.status(500).send("server error");
+    }
 }
 
 const logoutUser = async (req, res) => {
     try {
-        const user = await User.findById({ _id: req.params.id });
+        const user = await User.findById({ _id: req.id });
         user.tokens = user.tokens.filter((a) => {
             return a.token !== req.token;
         })
@@ -66,7 +77,7 @@ const logoutUser = async (req, res) => {
 
 const logoutAllUsers = async (req, res) => {
     try {
-        const user = await User.findById({ _id: req.params.id });
+        const user = await User.findById({ _id: req.id });
         user.tokens = [];
         user.save();
         res.status(200).send(user);
@@ -76,11 +87,15 @@ const logoutAllUsers = async (req, res) => {
 }
 
 const deleteUser = async (req, res) => {
-    const user = await User.deleteOne({ _id: req.params.id });
-    res.status(200).send(user);
+    try {
+        const user = await User.deleteOne({ _id: req.id });
+        res.status(200).send(user);
+    } catch (error) {
+        res.status(500).send("server error")
+    }
 }
 
-module.exports = { 
+module.exports = {
     getAllUsers: getAllUsers,
     loginUser: loginUser,
     getSingleUser: getSingleUser,
@@ -90,3 +105,4 @@ module.exports = {
     logoutAllUsers: logoutAllUsers,
     deleteUser: deleteUser
 }
+
