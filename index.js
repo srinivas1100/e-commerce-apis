@@ -1,4 +1,3 @@
-require('dotenv').config()
 const express = require('express');
 require("./src/helpers/database/database");
 const jwt = require("jsonwebtoken");

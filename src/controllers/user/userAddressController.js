@@ -45,7 +45,7 @@ const updateAddress = async (req, res) => {
     req.body.state === "" ? null : addresObject["state"] = req.body.state;
     req.body.country === "" ? null : addresObject["country"] = req.body.country;
     req.body.postal_code === "" ? null : addresObject["postal_code"] = req.body.postal_code;
-    addresObject["user_id"] = req.body.user_id;
+    // addresObject["user_id"] = req.body.user_id;
     try {
         const address = await UserAddress.findByIdAndUpdate({ _id: req.params.id }, addresObject);
         console.log(address);

@@ -78,19 +78,25 @@ userSchema.pre("save", async function (next) {
 
 userSchema.pre("deleteOne", { document: true }, async function (next) {
     const user = this;
-    const a = await UserAddress.find({user_id: user._id});
+    const a = await UserAddress.find({ user_id: user._id });
     console.log(a);
     await UserAddress.deleteMany({ user_id: user._id });
     next();
 });
 
-userSchema.pre("save", async function (req, next) {
+userSchema.post("save", async function (req, res, next) {
     const user = this;
-    const cart = new Cart({user_id: user._id});
-    await cart.save();
-    req.cart_id = cart._id;
-    console.log(cart);
-    next();
+    try {
+        const cart = new Cart({ user_id: user._id });
+        await cart.save();
+        req.cart_id = cart._id;
+        console.log(cart);
+        console.log("this was running successfully");
+           next();
+    } catch (error) {
+        console.log(error);
+        res.status(403).send("somthing went wrong wile createing a cart");
+    }
 });
 
 userSchema.methods.generateToken = async function () {
