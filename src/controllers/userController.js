@@ -11,7 +11,7 @@ const getAllUsers = async (req, res) => {
 const loginUser = async (req, res) => {
     try {
         const user = await User.findByCredentials(req.body.email, req.body.password);
-        console.log(user)
+
         await user.generateToken();
         res.status(200).send(user);
     } catch (error) {
@@ -48,7 +48,6 @@ const updateUser = async (req, res) => {
         req.body.name === "" ? null : userObject["name"] = req.body.name;
         req.body.email === "" ? null : userObject["email"] = req.body.email;
         req.body.password === "" ? null : userObject["password"] = await hashPassword(req.body.password);
-        console.log(req.body.password);
         req.body.usertype === "" ? null : userObject["usertype"] = req.body.usertype;
 
         await User.findOneAndUpdate({ _id: req.id }, userObject);

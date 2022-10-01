@@ -68,6 +68,12 @@ userSchema.virtual('address', {
     foreignField: "user_id"
 })
 
+userSchema.virtual('payments', {
+    ref: "user-payments",
+    localField: "_id",
+    foreignField: "user_id",
+})
+
 userSchema.pre("save", async function (next) {
     const user = this;
     if (user.isModified("password")) {
@@ -90,9 +96,8 @@ userSchema.post("save", async function (req, res, next) {
         const cart = new Cart({ user_id: user._id });
         await cart.save();
         req.cart_id = cart._id;
-        console.log(cart);
-        console.log("this was running successfully");
-           next();
+
+        next();
     } catch (error) {
         console.log(error);
         res.status(403).send("somthing went wrong wile createing a cart");

@@ -5,8 +5,13 @@
   "main": "index.js",
   "scripts": {
     "start": "env-cmd -f ./src/config/prod.env node index.js",
+    "local": "env-cmd -f ./src/config/local.env nodemon index.js",
     "dev": "env-cmd -f ./src/config/dev.env nodemon index.js",
-    "test": "env-cmd -f ./src/config/test.env jest --watch"
+    "test": "env-cmd -f ./src/config/test.env jest --watch",
+    "local-test": "env-cmd -f ./src/config/local-test.env jest --watch"
+  },
+  "jest": {
+    "testEnvironment": "node"
   },
   "keywords": [],
   "author": "",

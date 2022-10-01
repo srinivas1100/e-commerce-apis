@@ -7,7 +7,6 @@ const addCartItem = async (req, res) => {
         cartItem.save();
         res.status(200).send(cartItem);
     } catch (error) {
-        console.log(error);
         res.status(500).send("somthing went wrong pls try again");
     }
 }
@@ -39,7 +38,7 @@ const updateCartItem = async (req, res) => {
 
 const deleteCartItem = async (req, res) => {
     try {
-        const cartItem = await CartItem.deleteOne({_id: req.parems.id});
+        const cartItem = await CartItem.deleteOne({ _id: req.parems.id });
         res.status(200).send(cartItem);
     } catch (error) {
         console.log(error);

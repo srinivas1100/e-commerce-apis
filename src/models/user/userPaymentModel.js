@@ -3,22 +3,24 @@ const mongoose = require("mongoose");
 const userPaymentSchema = mongoose.Schema({
     user_id: {
         type: mongoose.Schema.Types.ObjectId,
-        require: true
+        require: true,
+        ref: "users"
     },
     order_id: {
         type: mongoose.Schema.Types.ObjectId,
-        require: true
+        require: true,
+        ref: "cart"
     },
     payment_status: {
         type: Boolean,
-        require:true,
+        require: true,
         default: false
     },
     total_amount: {
         type: Number,
-        require:true
+        require: true
     }
-},{
+}, {
     timestamps: true
 });
 
