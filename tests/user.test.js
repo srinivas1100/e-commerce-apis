@@ -1,46 +1,68 @@
-// const jest = require("jest");
-const superset = require("supertest");
+const request = require("supertest");
 const app = require("../app");
 const User = require("../src/models/userModel");
+const { objectId, user1, deleteAllFunction } = require("../tests/helpers")
 
-const user1 = new User({
-    name: "srinu",
-    email: "Srinu@gmail.com",
-    password: "12345678",
-    usertype: "user"
-});
-var i = 0;
 
-beforeEach(async () => {
-    i++;
-    // jest.setTimeout(10000)
-    console.log(`count numbers is ${i}`)
-    await User.deleteMany();
-    await user1.save();
+beforeAll(async () => {
+    await deleteAllFunction();
 });
 
-
-test("create user", async () => {
-    const user = await superset(app).post("/user").send({
-        name: "srinu",
-        email: "Srinu1@gmail.com",
-        password: "12345678",
-        usertype: "user"
+describe('POST crate user function', function () {
+    it('should respond with a json 200 response setting', async function () {
+        await request(app)
+            .post("/user").send({
+                name: "srinu",
+                email: "Srinu1@gmail.com",
+                password: "12345678",
+                usertype: "user"
+            })
+            .set('Accept', 'application/json')
+            .expect('Content-Type', /json/)
+            .expect(200);
     });
-    // .set('Accept', 'application/json')
-    // .expect('Content-Type', /json/)
-    // .expect(200)
-    console.log(user);
-    return user.expect(user.statusCode).toBe(user.statusCode);
+
+    // it('should respond with a json 400 email all read exist', function (done) {
+    //     request(app)
+    //         .post("/user", {
+    //             json: true,
+    //             body: '{"name":"srinu", "email": "Srinu1@gmail.com","password": "12345678","usertype": "user" }'
+    //         })
+    //         .expect('Content-Type', /json/)
+    //         .expect(400)
+    //         .end(done);
+    // });
+});
+
+
+describe('GET login user', function () {
+    it("user login success response", async function () {
+        await request(app)
+            .get("/user/login").send({
+                email: user1.email,
+                password: user1.password,
+            })
+            .set('Accept', 'application/json')
+            .expect('Content-Type', /json/)
+            .expect(200);
+    });
+    it("user login fail response", async function () {
+        await request(app)
+            .get("/user/login").send({
+                email: user1.email,
+                password: "123456789"
+            }).set('Accept', 'application/json')
+            .expect('Content-Type', /json/)
+            .expect(500);
+    });
 })
 
-// test("login user", async () => {
-//     console.log(user1.email);
-//     console.log(user1.password);
-//     const user =
-//         await superset(app).post("/user/login").send({
-//             email: user1.email,
-//             password: user1.password
-//         });
-//     user.expect(user.status).toBe(200);
+// test('login user', async () => {
+//     await request(app).get("/user/login").send({
+//         email: user1.email,
+//         password: user1.password,
+//     })
+//         .set('Accept', 'application/json')
+//         .expect('Content-Type', /json/)
+//         .expect(200);
 // })

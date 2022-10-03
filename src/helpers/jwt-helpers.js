@@ -2,7 +2,6 @@ const jwt = require("jsonwebtoken");
 
 const generateJwtToken = async (id) => {
     const token = await jwt.sign({ _id: id.toString() }, process.env.JWT_SEC);
-    console.log("Token : " +token);
     return token;
 }
 

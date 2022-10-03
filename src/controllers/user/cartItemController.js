@@ -16,7 +16,6 @@ const getSingleItem = async (req, res) => {
         const cartItem = await CartItem.findById(req.id);
         res.status(200).send(cartItem);
     } catch (error) {
-        console.log(error);
         res.status(500).send("somthing went wrong pls try again");
     }
 }
@@ -31,7 +30,6 @@ const updateCartItem = async (req, res) => {
         cartItem.save();
         res.status(200).send(cartItem);
     } catch (error) {
-        console.log(error);
         res.status(500).send("somthing went wrong pls try again");
     }
 }
@@ -41,7 +39,6 @@ const deleteCartItem = async (req, res) => {
         const cartItem = await CartItem.deleteOne({ _id: req.parems.id });
         res.status(200).send(cartItem);
     } catch (error) {
-        console.log(error);
         res.status(500).send("somthing went wrong pls try again");
     }
 }

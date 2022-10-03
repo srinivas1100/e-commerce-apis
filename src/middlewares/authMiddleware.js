@@ -13,7 +13,11 @@ const verifyToken = async (req, res, next) => {
 const getCartDetails = async (req, res, next) => {
     try {
         const cart = await Cart.findOne({ user_id: req.id });
-        if (!cart) return res.status(404).send("user cart is not exist");
+        console.log(cart);
+        if (cart === null) return res.status(404).send({
+            "message": "user cart is not exist"
+
+        });
         req.cart_id = cart._id;
         next();
     } catch (error) {

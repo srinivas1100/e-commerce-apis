@@ -21,7 +21,6 @@ const getSingleAddress = async (req, res) => {
         await address.populate('user_id');
         res.status(200).send(address);
     } catch (error) {
-        console.log(error);
         res.status(500).send("somthing went worng plese try again");
     }
 }
@@ -32,7 +31,6 @@ const getallUserAddress = async (req, res) => {
         await user.populate('address');
         res.status(200).send(user.address);
     } catch (err) {
-        console.log(err);
         res.status(500).send("somthing went worng plese try again");
     }
 }
@@ -48,10 +46,8 @@ const updateAddress = async (req, res) => {
     // addresObject["user_id"] = req.body.user_id;
     try {
         const address = await UserAddress.findByIdAndUpdate({ _id: req.params.id }, addresObject);
-        console.log(address);
         res.status(200).send(addresObject);
     } catch (error) {
-        console.log(error);
         res.status(500).send("somthig wen't worng pls try again");
     }
 }
@@ -61,7 +57,6 @@ const deleteAddress = async (req, res) => {
         const address = await UserAddress.deleteOne({ _id: req.params.id });
         res.status(200).send(address);
     } catch (error) {
-        console.log(error);
         res.status(500).send("somthig wen't worng pls try again");
     }
 }
@@ -69,10 +64,8 @@ const deleteAddress = async (req, res) => {
 const deleteAllAddress = async (req, res) => {
     try {
         const address = await UserAddress.deleteMany({ user_id: req.id });
-        console.log(address)
         res.status(200).send(address);
     } catch (error) {
-        console.log(error);
         res.status(500).send("somthig wen't worng pls try again");
     }
 }

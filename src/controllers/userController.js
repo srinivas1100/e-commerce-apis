@@ -33,8 +33,12 @@ const getSingleUser = async (req, res) => {
 const insertUser = async (req, res) => {
     try {
         const user = new User(req.body);
-        const saveUser = await user.save();
-        res.status(200).send(saveUser);
+        try {
+            const saveUser = await user.save();
+            res.status(200).send(saveUser);
+        } catch (error) {
+            res.status(500).send("user email all ready exists");
+        }
     } catch (err) {
         res.status(500).send("server error");
     }
@@ -54,7 +58,6 @@ const updateUser = async (req, res) => {
 
         res.status(200).send(userObject)
     } catch (err) {
-        console.log(err.toString());
         res.status(500).send("server error");
     }
 }
