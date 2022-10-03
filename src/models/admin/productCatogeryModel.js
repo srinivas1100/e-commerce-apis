@@ -3,13 +3,10 @@ const mongoose = require("mongoose");
 const pro_cat_sch = mongoose.Schema({
     admin_id: {
         type: mongoose.Schema.Types.ObjectId,
-        require:true
+        require: true,
+        ref: "users"
     },
     name: {
-        type: String,
-        require: true
-    },
-    admin_id: {
         type: String,
         require: true
     }
@@ -17,6 +14,6 @@ const pro_cat_sch = mongoose.Schema({
     timestamps: true
 });
 
-const productCatogery = mongoose.model("product-catogery", pro_cat_sch);
+const ProductCatogery = mongoose.model("product-catogery", pro_cat_sch);
 
-module.exports = productCatogery;
+module.exports = ProductCatogery;

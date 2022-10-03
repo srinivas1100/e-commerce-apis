@@ -2,6 +2,11 @@ const CartItem = require("../../models/user/cartItem");
 
 
 const addCartItem = async (req, res) => {
+    const cartItemObject = {};
+    // cartItemObject['user_id'] = req.id;
+    // cartItemObject['cart_id'] = req.cart_id;
+    // cartItemObject['product_id'];
+    // cartItemObject['quantity'];
     try {
         const cartItem = new CartItem(req.body);
         cartItem.save();
@@ -44,5 +49,7 @@ const deleteCartItem = async (req, res) => {
 }
 
 module.exports = {
-    getAllItems: getAllItems
+    addCartItem: addCartItem,
+    updateCartItem: updateCartItem,
+    deleteCartItem: deleteCartItem
 }

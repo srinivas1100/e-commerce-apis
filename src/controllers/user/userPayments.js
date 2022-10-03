@@ -67,5 +67,6 @@ const updateUserPayment = async (req, res) => {
 module.exports = {
     createUserPayment: createUserPayment,
     getSinglePaymentDetails: getSinglePaymentDetails,
+    getAllPayments: getAllPayments,
     updateUserPayment: updateUserPayment
 }

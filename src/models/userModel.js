@@ -71,6 +71,12 @@ userSchema.virtual('payments', {
     foreignField: "user_id",
 })
 
+userSchema.virtual("getAllUserCat", {
+    ref: "product-catogery",
+    localField: "_id",
+    foreignField: "admin_id"
+})
+
 userSchema.pre("save", async function (next) {
     const user = this;
     if (user.isModified("password")) {
