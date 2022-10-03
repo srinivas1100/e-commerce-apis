@@ -16,18 +16,18 @@ const userSchema = new mongoose.Schema({
         require: true,
         trim: true,
         unique: true,
-        // validate (a) {
-        //     if(!validator.isEmail(a)){
-        //         throw new Error("Email is invalid");
-        //     }
-        // }
+        validate(a) {
+            if (!validator.isEmail(a)) {
+                throw new Error("Email is invalid");
+            }
+        }
     },
     password: {
         type: String,
         require: true,
         trim: true,
-        // validate (a) {
-        //     if(validator.isPassword(a)){
+        // validate(a) {
+        //     if (validator.isPassword(a)) {
         //         throw new Error("Password is in sufficient");
         //     }
         // }
@@ -73,6 +73,12 @@ userSchema.virtual('payments', {
 
 userSchema.virtual("getAllUserCat", {
     ref: "product-catogery",
+    localField: "_id",
+    foreignField: "admin_id"
+})
+
+userSchema.virtual("productDis", {
+    ref: "discount",
     localField: "_id",
     foreignField: "admin_id"
 })

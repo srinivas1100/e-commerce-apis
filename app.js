@@ -7,6 +7,7 @@ const userAddressRouter = require("./src/routes/user/userAddressRouter");
 const cartItem = require("./src/routes/user/cartItemRouter");
 const userPayments = require("./src/routes/user/userPaymentRouter");
 const productCatogery = require("./src/routes/admin/proCatRouter");
+const productDiscount = require("./src/routes/admin/proDisRouter");
 
 const app = express();
 
@@ -18,6 +19,7 @@ app.use(userAddressRouter);
 app.use(cartItem);
 app.use(userPayments);
 app.use(productCatogery);
+app.use(productDiscount);
 
 app.get("/test", (req, res) => {
     res.status(200).send("status will send in the user");

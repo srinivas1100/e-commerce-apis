@@ -3,11 +3,12 @@ const mongoose = require("mongoose");
 const discountSchema = mongoose.Schema({
     admin_id: {
         type: mongoose.Schema.Types.ObjectId,
-        require: true
+        require: true,
+        ref: "users"
     },
     name: {
         type: String,
-        require:true
+        require: true
     },
     description: {
         type: String,
@@ -26,6 +27,6 @@ const discountSchema = mongoose.Schema({
     timestamps: true
 });
 
-const discount = mongoose.model("discount", discountSchema);
+const Discount = mongoose.model("discount", discountSchema);
 
-module.exports = discountSchema;
+module.exports = Discount;

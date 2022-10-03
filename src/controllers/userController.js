@@ -31,24 +31,25 @@ const getSingleUser = async (req, res) => {
 }
 
 const insertUser = async (req, res) => {
+    if (req.body.email === undefined) return res.status(400).send({
+        message: "email is require"
+    });
     try {
         const user = new User(req.body);
-        try {
-            const saveUser = await user.save();
-            res.status(200).send(saveUser);
-        } catch (error) {
-            res.status(500).send("user email all ready exists");
-        }
+        const saveUser = await user.save();
+        return res.status(200).send(saveUser);
     } catch (err) {
-        res.status(500).send("server error");
+        return res.status(500).send({
+            message: "somthing went wrong",
+            Error: err
+        });
     }
-
-
 }
 
 const updateUser = async (req, res) => {
     try {
         var userObject = {};
+
         req.body.name === "" ? null : userObject["name"] = req.body.name;
         req.body.email === "" ? null : userObject["email"] = req.body.email;
         req.body.password === "" ? null : userObject["password"] = await hashPassword(req.body.password);
