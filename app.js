@@ -8,6 +8,8 @@ const cartItem = require("./src/routes/user/cartItemRouter");
 const userPayments = require("./src/routes/user/userPaymentRouter");
 const productCatogery = require("./src/routes/admin/proCatRouter");
 const productDiscount = require("./src/routes/admin/proDisRouter");
+const product = require("./src/routes/admin/productRouter");
+const adminOrders = require("./src/routes/admin/adminOrdersRouter");
 
 const app = express();
 
@@ -20,6 +22,8 @@ app.use(cartItem);
 app.use(userPayments);
 app.use(productCatogery);
 app.use(productDiscount);
+app.use(product);
+app.use(adminOrders);
 
 app.get("/test", (req, res) => {
     res.status(200).send("status will send in the user");

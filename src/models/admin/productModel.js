@@ -5,9 +5,10 @@ const productSchma = mongoose.Schema({
     admin_id: {
         type: mongoose.Schema.Types.ObjectId,
         require: true,
+        ref: "users"
     },
     name: {
-        type : String,
+        type: String,
         require: true,
     },
     description: {
@@ -18,19 +19,39 @@ const productSchma = mongoose.Schema({
         type: Number,
         require: true,
     },
+    quantity: {
+        type: Number,
+        require: true,
+        default: 1
+    },
     discount_id: {
         type: mongoose.Schema.Types.ObjectId,
-        require: true
+        require: true,
+        ref: "discount"
     },
     catagery_id: {
         type: mongoose.Schema.Types.ObjectId,
-        require: true
+        require: true,
+        ref: "product-catogery"
     }
 
-},{
+}, {
     timestamps: true
 });
 
-const product = mongoose.model("product", productSchma);
 
-module.exports = product;
+productSchma.virtual('adminOrders', {
+    ref: "order-details",
+    localField: "_id",
+    foreignField: "product_id"
+})
+
+productSchma.virtual("userPayments", {
+    ref: "user-payments",
+    localField: "_id",
+    foreignField: "product_id"
+})
+
+const Product = mongoose.model("product", productSchma);
+
+module.exports = Product;

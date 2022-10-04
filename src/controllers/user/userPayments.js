@@ -4,11 +4,13 @@ const User = require("../../models/userModel");
 const createUserPayment = async (req, res) => {
     var userPaymentObject = {};
     userPaymentObject['user_id'] = req.id;
-    userPaymentObject['order_id'] = req.cart_id;
+    userPaymentObject['cart_id'] = req.cart_id;
     req.body.payment_status === "" ? false :
         userPaymentObject['payment_status'] = req.body.payment_status;
     req.body.total_amount === "" ? null :
         userPaymentObject['total_amount'] = req.body.total_amount;
+    userPaymentObject["product_id"] = req.body.product_id;
+    userPaymentObject["admin_id"] = req.body.admin_id;
     try {
         const payment = new UserPayment(userPaymentObject);
         await payment.save();
@@ -53,6 +55,8 @@ const updateUserPayment = async (req, res) => {
         userPaymentObject['payment_status'] = req.body.payment_status;
     req.body.total_amount === "" ? null :
         userPaymentObject['total_amount'] = req.body.total_amount;
+    userPaymentObject["product_id"] = req.body.product_id;
+    userPaymentObject["admin_id"] = req.body.admin_id;
     try {
         const updatePayment = await UserPayment.findByIdAndUpdate({ _id: req.params.id }, userPaymentObject);
         res.status(200).send(updatePayment);

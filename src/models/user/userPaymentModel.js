@@ -6,7 +6,7 @@ const userPaymentSchema = mongoose.Schema({
         require: true,
         ref: "users"
     },
-    order_id: {
+    cart_id: {
         type: mongoose.Schema.Types.ObjectId,
         require: true,
         ref: "cart"
@@ -19,10 +19,26 @@ const userPaymentSchema = mongoose.Schema({
     total_amount: {
         type: Number,
         require: true
+    },
+    product_id: {
+        type: mongoose.Schema.Types.ObjectId,
+        require: true,
+        ref: "product"
+    },
+    admin_id: {
+        type: mongoose.Schema.Types.ObjectId,
+        require: true,
+        ref: "users"
     }
 }, {
     timestamps: true
 });
+
+userPaymentSchema.virtual('adminOrders', {
+    ref: "order-details",
+    localField: "_id",
+    foreignField: "payment_id"
+})
 
 const userPayments = mongoose.model("user-payments", userPaymentSchema);
 

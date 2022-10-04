@@ -22,7 +22,7 @@ const cartSchema = mongoose.Schema({
 cartSchema.virtual('payments-or', {
     ref: "user-payments",
     localField: "_id",
-    foreignField: "order_id",
+    foreignField: "cart_id",
 })
 
 const Cart = mongoose.model("cart", cartSchema);

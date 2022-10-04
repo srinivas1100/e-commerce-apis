@@ -81,6 +81,24 @@ userSchema.virtual("productDis", {
     ref: "discount",
     localField: "_id",
     foreignField: "admin_id"
+});
+
+userSchema.virtual('adminProducts', {
+    ref: "product",
+    localField: "_id",
+    foreignField: "admin_id"
+})
+
+userSchema.virtual('adminOrders', {
+    ref: "order-details",
+    localField: "_id",
+    foreignField: "user_id"
+})
+
+userSchema.virtual('adminPayments', {
+    ref: "user-payments",
+    localField: "_id",
+    foreignField: "admin_id"
 })
 
 userSchema.pre("save", async function (next) {
