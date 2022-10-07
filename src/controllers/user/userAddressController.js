@@ -10,7 +10,7 @@ const postUserAddress = async (req, res) => {
         await address.save();
         res.status(200).send(address);
     } catch (error) {
-        res.status(500).send("server error");
+        return res.status(500).send({ "message": "somthing went wrong pls try again", "Error": error.toString() });
     }
 }
 
@@ -21,7 +21,8 @@ const getSingleAddress = async (req, res) => {
         await address.populate('user_id');
         res.status(200).send(address);
     } catch (error) {
-        res.status(500).send("somthing went worng plese try again");
+        return res.status(500).send({ "message": "somthing went wrong pls try again", "Error": error.toString() });
+
     }
 }
 
@@ -31,7 +32,7 @@ const getallUserAddress = async (req, res) => {
         await user.populate('address');
         res.status(200).send(user.address);
     } catch (err) {
-        res.status(500).send("somthing went worng plese try again");
+        return res.status(500).send({ "message": "somthing went wrong pls try again", "Error": error.toString() });
     }
 }
 
@@ -48,7 +49,7 @@ const updateAddress = async (req, res) => {
         const address = await UserAddress.findByIdAndUpdate({ _id: req.params.id }, addresObject);
         res.status(200).send(addresObject);
     } catch (error) {
-        res.status(500).send("somthig wen't worng pls try again");
+        return res.status(500).send({ "message": "somthing went wrong pls try again", "Error": error.toString() });
     }
 }
 
@@ -57,7 +58,7 @@ const deleteAddress = async (req, res) => {
         const address = await UserAddress.deleteOne({ _id: req.params.id });
         res.status(200).send(address);
     } catch (error) {
-        res.status(500).send("somthig wen't worng pls try again");
+        return res.status(500).send({ "message": "somthing went wrong pls try again", "Error": error.toString() });
     }
 }
 
