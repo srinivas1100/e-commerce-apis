@@ -24,9 +24,13 @@ const createUserPayment = async (req, res) => {
 
 const getAllPayments = async (req, res) => {
     try {
+        // const pay = await UserPayment.find({ user_id: req.id });
+        // await pay.populate("user_id");
+        // await pay.populate("cart_id");
         const user = await User.findById(req.id);
         await user.populate('payments');
-        res.status(200).send(user.payments);
+        return res.status(200).send(user.payments);
+        //return res.status(200).send(payments);
     } catch (error) {
         res.status(500).send({
             "message": "somthing went wrong pls try again after some time",
@@ -40,6 +44,7 @@ const getSinglePaymentDetails = async (req, res) => {
 
     try {
         const payment = await UserPayment.findById(req.params.id);
+        await payment.populate("user_id");
         res.status(200).send(payment);
     } catch (error) {
         res.status(500).send({

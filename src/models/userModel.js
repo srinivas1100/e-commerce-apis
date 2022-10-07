@@ -65,6 +65,12 @@ userSchema.virtual('address', {
     foreignField: "user_id"
 })
 
+userSchema.virtual('userCartItems', {
+    ref: "cartitem",
+    localField: "_id",
+    foreignField: "user_id"
+})
+
 userSchema.virtual('payments', {
     ref: "user-payments",
     localField: "_id",

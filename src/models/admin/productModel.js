@@ -52,6 +52,14 @@ productSchma.virtual("userPayments", {
     foreignField: "product_id"
 })
 
+productSchma.virtual("userCartItem", {
+    ref: "cartitem",
+    localField: "_id",
+    foreignField: "product_id"
+})
+
+productSchma.index({ name: 'text', description: 'text' });
+
 const Product = mongoose.model("product", productSchma);
 
 module.exports = Product;

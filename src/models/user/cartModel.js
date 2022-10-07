@@ -19,6 +19,12 @@ const cartSchema = mongoose.Schema({
     timestamps: true
 });
 
+cartSchema.virtual('cartItems', {
+    ref: "cartitem",
+    localField: "_id",
+    foreignField: "cart_id",
+})
+
 cartSchema.virtual('payments-or', {
     ref: "user-payments",
     localField: "_id",
